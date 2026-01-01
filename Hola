@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>qlq</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fff550 30%, #ffc3 35%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            padding: 20px;
+            touch-action: manipulation;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .envelope {
+            background-color: #1557;
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 15px 35px rgba(199, 63, 105, 0.3);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            border: 8px solid #fff100;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .envelope:active {
+            transform: scale(0.98);
+        }
+
+        .title {
+            color: #ff4d100;
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            font-family: 'Brush Script MT', cursive;
+            letter-spacing: 2px;
+        }
+
+        .message {
+            color: #ff4d100;
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            padding: 0 10px;
+        }
+
+        .instruction {
+            color: #ff4d100;
+            font-size: 1.1rem;
+            margin-top: 30px;
+            padding: 12px 20px;
+            background-color: #fff800;
+            border-radius: 50px;
+            display: inline-block;
+            border: 2px dashed #560;
+        }
+
+        .instruction i {
+            margin-right: 8px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .skull-icon {
+            color: #178
+            font-size: 2.5rem;
+            margin-top: 20px;
+            animation: circle 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Estilos para las letras explosivas */
+        .letter {
+            position: fixed;
+            font-size: 3rem;
+            font-weight: 900;
+            pointer-events: none;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            font-family: 'Segoe UI', Tahoma,genema, Verdana, sans-serif;
+            z-index: 1000;
+            opacity: 1;
+        }
+
+        .footer {
+            color: #ff4d87;
+            font-size: 1rem;
+            margin-top: 20px;
+            opacity: 0.8;
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.2rem;
+            }
+            
+            .message {
+                font-size: 1.1rem;
+            }
+            
+            .envelope {
+                padding: 30px 20px;
+            }
+            
+            .instruction {
+                font-size: 1rem;
+                padding: 10px 15px;
+            }
+            
+            .letter {
+                font-size: 2.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1.8rem;
+            }
+            
+            .message {
+                font-size: 1rem;
+            }
+            
+            .letter {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="envelope" id="envelope">
+            <h1 class="title">estoy aburrido</h1>
+            
+            <p class="message">
+              hola we
+                
+            </p>
+            
+            <p class="message">
+                De parte de ins'nity para ti:  "jodete, fuck You, Пошёл ты нахуй" sin ofender, no dire nombres pero
+                (geneesis,ivan,ledier) you can suck my dick 
+            </p>
+            
+            <div class="instruction">
+                <i class="fas fa-hand-pointer"></i>
+                Toca o haz clic en cualquier lugar estupida
+            </div>
+            
+            <div class=skull-icon >
+                <i class="fas fa-heart"></i>
+            </div>
+        </div>
+        
+        <div class="footer">
+            que we <i class="fas fa-skull" style="color:#100;"></i> - me aburri e hize esto en la fila del mercado
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const envelope = document.getElementById('envelope');
+            const message = "JAJAJAKJA";
+            const colors = ['#fff666', '#500', '#fff690', '#fff1099', '#fff500', '#fff700', '#fff400'];
+            
+            // Función para crear explosión de letras
+            function createExplosion(e) {
+                // Coordenadas del toque/clic
+                let x, y;
+                if (e.type.includes('touch')) {
+                    x = e.touches[0].clientX;
+                    y = e.touches[0].clientY;
+                } else {
+                    x = e.clientX;
+                    y = e.clientY;
+                }
+                
+                // Dividir el mensaje en letras
+                const letters = message.split('');
+                
+                // Radio inicial para distribuir las letras
+                const initialRadius = 30;
+                
+                // Calcular ángulo entre letras
+                const angleStep = (2 * Math.PI) / letters.length;
+                
+                // Crear y animar cada letra
+                letters.forEach((letter, index) => {
+                    // Calcular posición inicial en círculo alrededor del punto de toque
+                    const angle = index * angleStep;
+                    const startX = Math.cos(angle) * initialRadius;
+                    const startY = Math.sin(angle) * initialRadius;
+                    
+                    // Crear elemento de letra
+                    const letterElement = document.createElement('div');
+                    letterElement.classList.add('letter');
+                    letterElement.textContent = letter;
+                    letterElement.style.color = colors[index % colors.length];
+                    
+                    // Posicionar en el centro (punto de toque)
+                    letterElement.style.left = (x + startX) + 'px';
+                    letterElement.style.top = (y + startY) + 'px';
+                    letterElement.style.opacity = '1';
+                    letterElement.style.transform = 'translate(-50%, -50%) scale(1)';
+                    
+                    // Añadir al body
+                    document.body.appendChild(letterElement);
+                    
+                    // Variables para la trayectoria de explosión
+                    const explosionAngle = angle + (Math.random() * 1.0 - 0.5);
+                    const distance = 150 + Math.random() * 200;
+                    const endX = Math.cos(explosionAngle) * distance;
+                    const endY = Math.sin(explosionAngle) * distance;
+                    
+                    // Rotación aleatoria
+                    const rotation = (Math.random() * 360) - 180;
+                    
+                    // Duración de animación
+                    const duration = 15000 + Math.random() * 500;
+                    
+                    // Animar con JavaScript puro
+                    const startTime = Date.now();
+                    
+                    function animateLetter() {
+                        const elapsed = Date.now() - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        
+                        // Fórmula de easing
+                        const ease = 1 - Math.pow(1 - progress, 3);
+                        
+                        // Calcular posición actual
+                        const currentX = startX + (endX * ease);
+                        const currentY = startY + (endY * ease);
+                        const currentScale = 1 + (0.5 * ease);
+                        const currentOpacity = 1 - progress;
+                        
+                        // Aplicar transformaciones
+                        letterElement.style.left = (x + currentX) + 'px';
+                        letterElement.style.top = (y + currentY) + 'px';
+                        letterElement.style.transform = `translate(-50%, -50%) scale(${currentScale}) rotate(${rotation * progress}deg)`;
+                        letterElement.style.opacity = currentOpacity;
+                        
+                        // Continuar animación si no ha terminado
+                        if (progress < 1) {
+                            requestAnimationFrame(animateLetter);
+                        } else {
+                            // Eliminar elemento después de la animación
+                            if (letterElement.parentNode) {
+                                letterElement.parentNode.removeChild(letterElement);
+                            }
+                        }
+                    }
+                    
+                    // Iniciar animación
+                    requestAnimationFrame(animateLetter);
+                });
+                
+                // Efecto de vibración suave en el sobre
+                envelope.style.transform = 'scale(0.97)';
+                setTimeout(() => {
+                    envelope.style.transform = 'scale(1)';
+                }, 150);
+            }
+            
+            // Event listeners para clic y toque
+            envelope.addEventListener('click', createExplosion);
+            envelope.addEventListener('touchstart', function(e) {
+                createExplosion(e);
+            });
+            
+            // También permitir interacción en toda la página
+            document.body.addEventListener('click', function(e) {
+                // Evitar duplicar evento si se hace clic en el sobre
+                if (e.target === envelope || envelope.contains(e.target)) return;
+                createExplosion(e);
+            });
+            
+            document.body.addEventListener('touchstart', function(e) {
+                // Evitar duplicar evento si se toca el sobre
+                if (e.target === envelope || envelope.contains(e.target)) return;
+                createExplosion(e);
+            });
+            
+            // Crear una explosión inicial de bienvenida
+            setTimeout(() => {
+                const initialEvent = {
+                    clientX: window.innerWidth / 2,
+                    clientY: window.innerHeight / 2,
+                    type: 'initial',
+                    touches: [{clientX: window.innerWidth / 2, clientY: window.innerHeight / 2}]
+                };
+                createExplosion(initialEvent);
+            }, 800);
+        });
+    </script>
+</body>
+  </html>
